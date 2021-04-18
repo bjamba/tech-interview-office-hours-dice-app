@@ -27,7 +27,6 @@ function Die(props) {
     d6, d8, d10, d12, d20
   };
 
-  console.log(props.animation);
   return (
     <div className="die">
       <img
