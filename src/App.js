@@ -54,14 +54,15 @@ function DieSidesSelector(props) {
           return <option key={e} value={e}>{e}</option>;
         })}
       </select>
-      <Button onClick={() => props.onClick(newDie)} buttonText={"Add"}/>
+      <Button onClick={() => props.onClick(newDie)} buttonText={"Add"} disabled={props.disabled} />
+      { props.disabled && <div className={"small-text"}>You can't add any more die!</div> }
     </div>
   );
 }
 
 function Button(props) {
   return (
-    <button className="button" onClick={() => props.onClick()}>{props.buttonText}</button>
+    <button className="button" onClick={() => props.onClick()} disabled={props.disabled}>{props.buttonText}</button>
   );
 }
 
@@ -141,7 +142,7 @@ export default function App() {
         Roll some dice!
         <br />
         <br />
-        <DieSidesSelector onClick={(newDie) => addDie(newDie)} sides={[6,8,10,12,20]} />
+        <DieSidesSelector onClick={(newDie) => addDie(newDie)} sides={[6,8,10,12,20]} disabled={dice.length >= 10}/>
         <br />
         <Button buttonText={"Roll All!"} onClick={() => rollDice()} />
         <Button buttonText={"Reset"} onClick={() => resetState()} />
