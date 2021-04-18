@@ -138,9 +138,7 @@ export default function App() {
 
   return (
       <div className='App'>
-        Roll some dice!
-        <br />
-        <br />
+        <h2>Roll some dice!</h2>
         <div className='container'>
           <DieSidesSelector onClick={(newDie) => addDie(newDie)} sides={[6,8,10,12,20]} disabled={dice.length >= 10}/>
           <br />

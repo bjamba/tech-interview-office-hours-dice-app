@@ -32,6 +32,7 @@
 
 .die {
   display:inline-block;
+  width: 100px;
 }
 
 @keyframes rotation {
