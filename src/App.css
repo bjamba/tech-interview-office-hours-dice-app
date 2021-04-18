@@ -5,13 +5,15 @@
 .die {
   padding-top: 5px;
   padding-bottom: 5px;
-  margin: 15px;
-  border: 1px solid;
-  border-radius: 10px;
-  border-color: black;
+  margin: 5px;
   text-align: center;
-  width: 50px;
-  height: 40px;
+  width: 70px;
+  height: 70px;
+}
+
+.die-img[animation='1'] {
+  animation: rotation;
+  animation-duration: 200ms;
 }
 
 .button {
@@ -20,3 +22,20 @@
   margin: 5px;
 }
 
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(359deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(359deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}

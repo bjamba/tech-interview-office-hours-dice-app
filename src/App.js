@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import './App.css';
+import d6 from './img/d6.jpg';
+import d8 from './img/d8.jpg';
+import d10 from './img/d10.jpg';
+import d12 from './img/d12.jpg';
+import d20 from './img/d20.jpg';
 import ReactDOM from 'react-dom';
+
 
 /**
  * Roadmap
@@ -17,11 +23,22 @@ import ReactDOM from 'react-dom';
  */
 
 function Die(props) {
+  const images = {
+    d6, d8, d10, d12, d20
+  };
+
+  console.log(props.animation);
   return (
     <div className="die">
-      {props.die.value}
-      <br />
-      {`(d${props.die.sides})`}
+      <img
+        className="die-img"
+        onAnimationEnd={() => props.setAnimation(0)}
+        animation={props.animation}
+        height={"50"} width={"50"}
+        src={images[`d${props.die.sides}`]}
+        alt={`d${props.die.value}`}
+      />
+      <div>{props.die.value}</div>
     </div>
   );
 
@@ -65,6 +82,7 @@ function Log(props) {
 export default function App() {
   const [dice, setDice] = useState([]);
   const [log, setLog] = useState([]);
+  const [animation, setAnimation] = useState(0);
 
 /**
  *  Functions
@@ -91,6 +109,7 @@ export default function App() {
       return newDie;
     });
 
+    setAnimation(1);
     setDice(rolledDice);
     updateLog(rolledDice);
   };
@@ -132,7 +151,7 @@ export default function App() {
         {dice.map((v,i) => {
           return (
             <div key={i}>
-              <Die die={v}/>
+              <Die die={v} animation={animation} setAnimation={(i) => setAnimation(i)}/>
               <Button buttonText={"Roll"} onClick={() => rerollDie(i)} />
               <br />
               <Button buttonText={"Remove"} onClick={() => removeDie(i)} />
