@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 # tech-interview-office-hours-dice-app
 Welcome to our Case Study for Tech Interviews Office Hours Lecture 6, "Deploy an App": https://docs.google.com/presentation/d/1u5Ijmf04G-yLfkw5Nz3lzgVSU6y6MAabbfQQVeKXPw4/edit#slide=id.g9de3fb1d5d_1_78
 
