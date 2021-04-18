@@ -26,13 +26,14 @@ function Die(props) {
   const images = {
     d6, d8, d10, d12, d20
   };
+  console.log(props.animation, props.animation[props.idx])
 
   return (
     <div className="die">
       <img
         className="die-img"
-        onAnimationEnd={() => props.setAnimation(0)}
-        animation={props.animation}
+        onAnimationEnd={() => props.setAnimation()}
+        animation={props.animation[props.idx]}
         height={"50"} width={"50"}
         src={images[`d${props.die.sides}`]}
         alt={`d${props.die.value}`}
@@ -81,48 +82,44 @@ function Log(props) {
 
 export default function App() {
   const [dice, setDice] = useState([]);
+  const [animation, setAnimation] = useState([]);
   const [log, setLog] = useState([]);
-  const [animation, setAnimation] = useState(0);
 
 /**
  *  Functions
  *   addDie - Adds a new die to state with the requisite sides
  *   removeDie - Removes the specific die from the existing dice
- *   rollDie - Rolls all the existing dice together
- *    calculateTotal - Calculate total for all dice; dependent on rollDie
- *    updateLog - Update log with state information + total; dependent on rollDie
+ *   rollDice - Rolls all the existing dice together
+ *    calculateTotal - Calculate total for all dice; dependent on rollDice
+ *    updateLog - Update log with state information + total; dependent on rollDice
  */
   const addDie = (newDie) => {
-    setDice(dice.concat({ sides: newDie, value: newDie }))
+    setDice(dice.concat({ sides: newDie, value: newDie }));
+    setAnimation(animation.concat(0));
   }
 
   const removeDie = (idx) => {;
-    setDice(dice.filter((v,i) => i !== idx));
+    setDice(dice.filter((_, i) => i !== idx));
+    setAnimation(animation.filter((_, i) => i !== idx));
   }
 
-  const rollDice = () => {
-    const rolledDice = dice.map((die) => {
-      const newDie = {
-        sides: die.sides,
-        value: Math.ceil(Math.random()*die.sides),
-      }
-      return newDie;
-    });
-
-    setAnimation(1);
-    setDice(rolledDice);
-    updateLog(rolledDice);
-  };
-
-  const rerollDie = (i) => {
+  const rollDice = (indices) => {
     const rolledDice = dice.map((die, idx) => {
-      if (i === idx) {
-        return { sides: die.sides, value: Math.ceil(Math.random()*die.sides) };
+      if (indices.includes(idx)) {
+        return {
+          sides: die.sides,
+          value: Math.ceil(Math.random()*die.sides)
+        };
       }
       return die;
     });
 
+    console.log(indices);
+    const rollAnimation = animation
+      .map((_, idx) => (indices.includes(idx)) ? 1 : 0);
+
     setDice(rolledDice);
+    setAnimation(rollAnimation);
     updateLog(rolledDice);
   };
 
@@ -144,15 +141,15 @@ export default function App() {
         <br />
         <DieSidesSelector onClick={(newDie) => addDie(newDie)} sides={[6,8,10,12,20]} disabled={dice.length >= 10}/>
         <br />
-        <Button buttonText={"Roll All!"} onClick={() => rollDice()} />
+        <Button buttonText={"Roll All!"} onClick={() => rollDice(dice.map((_, i) => i))} />
         <Button buttonText={"Reset"} onClick={() => resetState()} />
         <br />
         <br />
         {dice.map((v,i) => {
           return (
             <div key={i}>
-              <Die die={v} animation={animation} setAnimation={(i) => setAnimation(i)}/>
-              <Button buttonText={"Roll"} onClick={() => rerollDie(i)} />
+              <Die idx={i} die={v} animation={animation} setAnimation={() => setAnimation(dice.map(e => 0))}/>
+              <Button buttonText={"Roll"} onClick={() => rollDice([i])} />
               <br />
               <Button buttonText={"Remove"} onClick={() => removeDie(i)} />
             </div>

@@ -13,7 +13,7 @@
 
 .die-img[animation='1'] {
   animation: rotation;
-  animation-duration: 200ms;
+  animation-duration: 250ms;
 }
 
 .button {
@@ -30,6 +30,18 @@
   0% {
     transform: rotate(0deg);
   }
+  5% {
+    transform: rotate(359deg);
+  }
+  10% {
+    transform: rotate(0deg);
+  }
+  10% {
+    transform: rotate(359deg);
+  }
+  10% {
+    transform: rotate(0deg);
+  }
   25% {
     transform: rotate(359deg);
   }
@@ -37,9 +49,15 @@
     transform: rotate(0deg);
   }
   75% {
+    transform: rotate(180deg);
+  }
+  85% {
     transform: rotate(359deg);
   }
+  95% {
+    transform: rotate(180deg);
+  }
   100% {
-    transform: rotate(0deg);
+    transform: rotate(359deg);
   }
 }
