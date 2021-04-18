@@ -75,17 +75,14 @@ export default function App() {
  *    updateLog - Update log with state information + total; dependent on rollDie
  */
   const addDie = (newDie) => {
-    console.log(newDie);
     setDice(dice.concat({ sides: newDie, value: newDie }))
   }
 
-  const removeDie = (idx) => {
-    console.log(dice[idx]);
+  const removeDie = (idx) => {;
     setDice(dice.filter((v,i) => i !== idx));
   }
 
   const rollDice = () => {
-    console.log(dice);
     const rolledDice = dice.map((die) => {
       const newDie = {
         sides: die.sides,
@@ -95,9 +92,30 @@ export default function App() {
     });
 
     setDice(rolledDice);
+    updateLog();
+  };
+
+  const rerollDie = (i) => {
+    const rolledDice = dice.map((die, idx) => {
+      if (i === idx) {
+        return { sides: die.sides, value: Math.ceil(Math.random()*die.sides) };
+      }
+      return die;
+    });
+
+    setDice(rolledDice);
+    updateLog();
+  };
+
+  const updateLog = () => {
     if (dice.length > 0) {
-      setLog(log.concat({ dice, total: dice.reduce((a,c) => a + c.value, 0)}));
+      setLog(log.concat({ dice, total: dice.reduce((a,c) => a + parseInt(c.value), 0)}));
     }
+  }
+
+  const resetState = () => {
+    setDice([]);
+    setLog([]);
   };
 
   return (
@@ -107,13 +125,16 @@ export default function App() {
         <br />
         <DieSidesSelector onClick={(newDie) => addDie(newDie)} sides={[6,8,10,12,20]} />
         <br />
-        <Button buttonText={"Roll!"} onClick={() => rollDice()} />
+        <Button buttonText={"Roll All!"} onClick={() => rollDice()} />
+        <Button buttonText={"Reset"} onClick={() => resetState()} />
         <br />
         <br />
         {dice.map((v,i) => {
           return (
             <div key={i}>
               <Die die={v}/>
+              <Button buttonText={"Roll"} onClick={() => rerollDie(i)} />
+              <br />
               <Button buttonText={"Remove"} onClick={() => removeDie(i)} />
             </div>
           );
