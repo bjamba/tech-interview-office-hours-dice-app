@@ -56,7 +56,9 @@ function DieSidesSelector(props) {
         })}
       </select>
       <Button onClick={() => props.onClick(newDie)} buttonText={"Add"} disabled={props.disabled} />
-      { props.disabled && <div className={"small-text"}>You can't add any more die!</div> }
+      <div className="small-text">
+        { props.disabled && <div className={"small-text"}>You can't add any more die!</div> }
+      </div>
     </div>
   );
 }
@@ -139,23 +141,27 @@ export default function App() {
         Roll some dice!
         <br />
         <br />
-        <DieSidesSelector onClick={(newDie) => addDie(newDie)} sides={[6,8,10,12,20]} disabled={dice.length >= 10}/>
-        <br />
-        <Button buttonText={"Roll All!"} onClick={() => rollDice(dice.map((_, i) => i))} />
-        <Button buttonText={"Reset"} onClick={() => resetState()} />
-        <br />
-        <br />
-        {dice.map((v,i) => {
-          return (
-            <div key={i}>
-              <Die idx={i} die={v} animation={animation} setAnimation={() => setAnimation(dice.map(e => 0))}/>
-              <Button buttonText={"Roll"} onClick={() => rollDice([i])} />
-              <br />
-              <Button buttonText={"Remove"} onClick={() => removeDie(i)} />
-            </div>
-          );
-        })}
-        <Log log={log} />
+        <div className='container'>
+          <DieSidesSelector onClick={(newDie) => addDie(newDie)} sides={[6,8,10,12,20]} disabled={dice.length >= 10}/>
+          <br />
+          <Button buttonText={"Roll All!"} onClick={() => rollDice(dice.map((_, i) => i))} />
+          <Button buttonText={"Reset"} onClick={() => resetState()} />
+        </div>
+        <div className='container'>
+          {dice.map((v,i) => {
+            return (
+              <div className='die' key={i}>
+                <Die idx={i} die={v} animation={animation} setAnimation={() => setAnimation(dice.map(e => 0))}/>
+                <Button buttonText={"Roll"} onClick={() => rollDice([i])} />
+                <br />
+                <Button buttonText={"Remove"} onClick={() => removeDie(i)} />
+              </div>
+            );
+          })}
+        </div>
+        <div className='container'>
+          <Log log={log} />
+        </div>
     </div>
     );
 }

@@ -26,6 +26,14 @@
   font-size:x-small;
 }
 
+.container {
+  margin-bottom: 25px;
+}
+
+.die {
+  display:inline-block;
+}
+
 @keyframes rotation {
   0% {
     transform: rotate(0deg);
