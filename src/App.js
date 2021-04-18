@@ -92,7 +92,7 @@ export default function App() {
     });
 
     setDice(rolledDice);
-    updateLog();
+    updateLog(rolledDice);
   };
 
   const rerollDie = (i) => {
@@ -104,10 +104,10 @@ export default function App() {
     });
 
     setDice(rolledDice);
-    updateLog();
+    updateLog(rolledDice);
   };
 
-  const updateLog = () => {
+  const updateLog = (dice) => {
     if (dice.length > 0) {
       setLog(log.concat({ dice, total: dice.reduce((a,c) => a + parseInt(c.value), 0)}));
     }
